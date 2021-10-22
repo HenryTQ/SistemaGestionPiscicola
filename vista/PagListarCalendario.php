@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once './../modelo/EstanqueDao.php';
-$obj = new EstanqueDao();
+include_once './../modelo/CalendarioDao.php';
+$obj = new CalendarioDao();
 $usuario = $_SESSION["usuario"][0][0];
 $data = $obj->ListarTodos($usuario);
 ?>
@@ -9,13 +9,12 @@ $data = $obj->ListarTodos($usuario);
     <thead>
         <tr>
             <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Forma</th>
-            <th>Area</th>
-            <th>Volumen</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Evento</th>
             <th>Estado</th>
-            <th>Accion</th>
+            <th>Comentario</th>
+            <th >Accion</th>
         </tr>
     </thead>
     <tbody>
@@ -29,7 +28,6 @@ $data = $obj->ListarTodos($usuario);
                 <td><?php echo $row[3]; ?></td>
                 <td><?php echo $row[4]; ?></td>
                 <td><?php echo $row[5]; ?></td>
-                <td><?php echo $row[6]; ?></td>
                 <td>
                     <a href="javascript:void(0)" onclick="Editar(<?= $row[0] ?>)" class="btn btn-info btn-sm" title="Editar">
                         <i class="fa fa-edit"> </i>

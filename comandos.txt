@@ -10,3 +10,11 @@ git push -u origin main
 git remote add origin https://github.com/HenryTQ/SistemaGestionPiscicola.git
 git branch -M main
 git push -u origin main
+
+------------------------------------
+EN CASO DE AGREGAR O MODIFICAR CODIGO:
+
+git add .
+git commit -m "Modificacion de Index"
+git branch -M main
+git push -u origin main

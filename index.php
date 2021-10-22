@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Pagina Inicio</title>
+        <title></title>
     </head>
     <body>
         <?php

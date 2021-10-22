@@ -37,7 +37,6 @@ create table Estanque(
 create table Siembra(
 	id_siembra int primary key auto_increment,
     fecha_siembra date,
-    estanque_siembra varchar(50),
     especie_siembra varchar(50),
     procedencia_siembra varchar(50),
     cantidad_siembra int,
@@ -50,8 +49,7 @@ create table Siembra(
 
 create table Calidad_Agua(
 	id_calidad int primary key auto_increment,
-    fecha_calidad date,
-    estanque_calidad varchar(40),
+    fecha_calidad datetime,
     temperatura_calidad float,
     oxigeno_calidad float,
     ph_calidad float,

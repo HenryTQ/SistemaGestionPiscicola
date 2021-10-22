@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Estanque</title>
+        <title>Siembra</title>
         <?php include_once './includes/recurso.php'; ?>
     </head>
     <body style="background: #d7f5f9;">
@@ -13,6 +13,10 @@
         session_start();
         include_once './includes/section.php';
         include_once './includes/header.php';
+
+        include_once './../modelo/EstanqueDao.php';
+        $obj = new EstanqueDao();
+        $data_estanque = $obj->ListarTodos($_SESSION["usuario"][0][0]);
         ?>
 
         <section class="blog_area pb-xl-4">
@@ -48,68 +52,76 @@
                                                     <form id="frmCrear">
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label for="nombre">Nombre</label>
-                                                                <input type="text" class="form-control" id="nombre" name="nombre">
+                                                                <label>Fecha Siembra</label>
+                                                                <input type="date" class="form-control" id="fecha" name="fecha">
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label for="inputPassword4">Area (m2)</label>
-                                                                <input type="number" class="form-control" id="area" name="area">
+                                                                <label >Cantidad</label>
+                                                                <input type="number" class="form-control" id="cantidad" name="cantidad">
                                                             </div>
                                                         </div>
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label for="tipo">Tipo</label>
-                                                                <select class="form-control" name="tipo" id="tipo">
-                                                                    <option value="Cemento">Cemento</option>
-                                                                    <option value="Jaula">Jaula</option>
-                                                                    <option value="Tierra">Tierra</option>
+                                                                <label>Estaque</label>
+                                                                <select class="form-control" name="estanque" id="estanque">
+                                                                    <option value="0">:::Seleccione:::</option>
+                                                                    <?php foreach ($data_estanque as $key => $row) : ?>
+                                                                        <option value="<?php echo $row[0] ?>"><?php echo $row[1]; ?></option>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </div>
 
                                                             <div class="form-group col-md-6">
-                                                                <label for="volumen">Volumen agua (m3)</label>
-                                                                <input type="number" class="form-control" id="volumen" name="volumen">
+                                                                <label >Peso (Gr)</label>
+                                                                <input type="number" class="form-control" id="peso" name="peso">
                                                             </div>
                                                         </div>
 
 
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label for="tipo">Forma</label>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="forma" id="gridRadios1" value="Circular" checked>
-                                                                    <label class="form-check-label" for="gridRadios1">
-                                                                        Circular
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="forma" id="gridRadios2" value="Rectangular">
-                                                                    <label class="form-check-label" for="gridRadios2">
-                                                                        Rectangular
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="forma" id="gridRadios3" value="Cuadrado">
-                                                                    <label class="form-check-label" for="gridRadios3">
-                                                                        Cuadrado
-                                                                    </label>
-                                                                </div>
+                                                                <label>Especie</label>
+                                                                <select class="form-control" name="especie" id="especie">
+                                                                    <option value="Truchas">Truchas</option>
+                                                                </select>
                                                             </div>
 
                                                             <div class="form-group col-md-6">
-                                                                <label for="estado">Estado</label>
+                                                                <label >Estado</label>
                                                                 <select class="form-control" name="estado" id="estado">
-                                                                    <option value="Libre">Libre</option>
-                                                                    <option value="Ocupado">Ocupado</option>
-                                                                    <option value="Mantenimiento">Mantenimiento</option>
+                                                                    <option value="En Proceso">En Proceso</option>
+                                                                    <option value="Terminado">Terminado</option>
+                                                                    <option value="Cancelado">Cancelado</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="id_estanque" id="id_estanque">
-                                                        <input type="hidden" name="accion" id="accion" value="crear">
-                                                        <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearEstanque()">Guardar</button>
-                                                        <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarEstanque()">Editar</button>
-                                                        <button type="reset" class="btn btn-danger" onclick="Resetear()">Nuevo</button>
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Procedencia Peces</label>
+                                                                <select class="form-control" name="procedencia" id="procedencia">
+                                                                    <option value="Nacional">Nacional</option>
+                                                                    <option value="Importado">Importado</option>
+                                                                </select>
+
+                                                                <br>
+
+                                                                <div>
+                                                                    <input type="hidden" name="id_siembra" id="id_siembra">
+                                                                    <input type="hidden" name="accion" id="accion" value="crear">
+                                                                    <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearSiembra()">Guardar</button>
+                                                                    <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarSiembra()">Editar</button>
+                                                                    <button type="reset" class="btn btn-danger" onclick="Resetear()">Nuevo</button>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Comentarios</label>
+                                                                <textarea class="form-control" id="comentarios" name="comentarios" rows="6"></textarea>
+                                                            </div>
+                                                        </div>
+
                                                     </form>
                                                 </div>
                                             </div>
@@ -119,7 +131,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div id="mensaje2"></div>
-                                                    <div  id="listadoEstanque"></div>
+                                                    <div  id="listadoSiembra"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,12 +163,28 @@
         }
 
         function ValidarCampos() {
-            var nombre = $("#nombre").val();
-            var area = $("#area").val();
-            var volumen = $("#volumen").val();
+            var cantidad = $("#cantidad").val();
+            var peso = $("#peso").val();
+            var estanque = $("#estanque").val();
 
-            if (nombre === "" | area === "" || volumen === "") {
-                Mensaje("mensaje", "danger", "Por favor complete todos los campos.");
+            if (cantidad === "") {
+                Mensaje("mensaje", "danger", "El campo de la cantidad es requerido.");
+                return false;
+            } else if (parseFloat(cantidad) <= 0) {
+                Mensaje("mensaje", "danger", "La cantidad debe ser un valor positivo.");
+                return false;
+            }
+
+            if (peso === "") {
+                Mensaje("mensaje", "danger", "El campo del peso es requerido.");
+                return false;
+            } else if (parseFloat(peso) <= 0) {
+                Mensaje("mensaje", "danger", "El peso debe ser un valor positivo.");
+                return false;
+            }
+
+            if (parseInt(estanque) === 0) {
+                Mensaje("mensaje", "danger", "Por favor seleccione un estanque.");
                 return false;
             }
 
@@ -174,14 +202,14 @@
             $.ajax({
                 type: "GET",
                 dataType: 'html',
-                url: "./../controlador/ControlEstanque.php?accion=listar",
+                url: "./../controlador/ControlSiembra.php?accion=listar",
                 success: function (data) {
-                    $("#listadoEstanque").html(data);
+                    $("#listadoSiembra").html(data);
                 }
             });
         }
 
-        function CrearEstanque() {
+        function CrearSiembra() {
             if (!ValidarCampos()) {
                 return;
             }
@@ -190,16 +218,17 @@
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlEstanque.php",
+                url: "./../controlador/ControlSiembra.php",
                 success: function (data) {
                     if (parseInt(data) > 0) {
-                        Mensaje("mensaje", "success", "Estanque creado correctamente.!");
+                        Mensaje("mensaje", "success", "Siembra creado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Listar();
                     } else {
                         Mensaje("mensaje", "danger", "No se ha podido crear estanque.");
                     }
                 }, error: function (jqXHR, textStatus, errorThrown) {
+                    console.dir(jqXHR);
                     Mensaje("mensaje", "danger", "Ha ocurrido un error interno.");
                 }
             });
@@ -215,10 +244,10 @@
                 $.ajax({
                     type: "GET",
                     data: "id=" + id,
-                    url: "./../controlador/ControlEstanque.php?accion=eliminar",
+                    url: "./../controlador/ControlSiembra.php?accion=eliminar",
                     success: function (data) {
                         if (parseInt(data) > 0) {
-                            Mensaje("mensaje2", "success", "El estanque con el id " + id + " se elimino correctamente!!");
+                            Mensaje("mensaje2", "success", "La siembra con el id " + id + " se elimino correctamente!!");
                             Listar();
                         } else {
                             Mensaje("mensaje2", "danger", "No se puede eliminar por una dependencia de llave foranea !");
@@ -231,6 +260,7 @@
         }
 
         function Editar(id) {
+            
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -238,15 +268,18 @@
                     id: id,
                     accion: "buscarPorId"
                 },
-                url: "./../controlador/ControlEstanque.php",
+                url: "./../controlador/ControlSiembra.php",
                 success: function (data) {
-                    $("input[name=forma][value='" + data.forma_estanque + "']").prop("checked", true);
-                    $("#nombre").val(data.nombre_estanque);
-                    $("#area").val(data.area_estanque);
-                    $("#tipo").val(data.tipo_estanque);
-                    $("#volumen").val(data.volumen_agua_estanque);
-                    $("#estado").val(data.estado_estanque);
-                    $("#id_estanque").val(id);
+
+                    $("#fecha").val(data.fecha_siembra);
+                    $("#especie").val(data.especie_siembra);
+                    $("#procedencia").val(data.procedencia_siembra);
+                    $("#cantidad").val(data.cantidad_siembra);
+                    $("#peso").val(data.peso_siembra);
+                    $("#estado").val(data.estado_siembra);
+                    $("#comentarios").val(data.observacion_siembra);
+                    $("#estanque").val(data.id_estanque);
+                    $("#id_siembra").val(id);
                     $("#myTab a:first").parent("li").show();
                     $("#myTab a:first").tab('show');
                     $("#btnCrear").hide();
@@ -258,7 +291,7 @@
             });
         }
 
-        function EditarEstanque() {
+        function EditarSiembra() {
             if (!ValidarCampos()) {
                 return;
             }
@@ -267,15 +300,15 @@
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlEstanque.php",
+                url: "./../controlador/ControlSiembra.php",
                 success: function (data) {
                     if (data) {
-                        Mensaje("mensaje", "success", "Estanque editado correctamente.!");
+                        Mensaje("mensaje", "success", "Siembra editado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Resetear();
                         Listar();
                     } else {
-                        Mensaje("mensaje", "danger", "No se ha podido editar datos del estanque.");
+                        Mensaje("mensaje", "danger", "No se ha podido editar datos de la siembra.");
                     }
 
                 }, error: function (jqXHR, textStatus, errorThrown) {

@@ -14,17 +14,25 @@
 
                 <li>
                     <a href="./PagEstanque.php" class="d-flex justify-content-between">
-                           <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagEstanque.php') echo "btn btn-lg btn-success btn-block"; ?>"  >Estanques</p>
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagEstanque.php') echo "btn btn-lg btn-success btn-block"; ?>"  >Estanques</p>
                     </a>
                 </li>
+
                 <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Siembra</p>
+                    <a href="./PagCalendario.php" class="d-flex justify-content-between">
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagCalendario.php') echo "btn btn-lg btn-success btn-block"; ?>"  >Calendario</p>
                     </a>
                 </li>
+
                 <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Calidad de agua</p>
+                    <a href="./PagSiembra.php" class="d-flex justify-content-between">
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagSiembra.php') echo "btn btn-lg btn-success btn-block"; ?>" >Siembra</p>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./PagCalidadDeAgua.php" class="d-flex justify-content-between">
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagCalidadDeAgua.php') echo "btn btn-lg btn-success btn-block"; ?>" >Calidad de agua</p>
                     </a>
                 </li>
                 <li>
@@ -35,6 +43,11 @@
                 <li>
                     <a href="#" class="d-flex justify-content-between">
                         <p>Cosecha</p>
+                    </a>
+                </li>
+                   <li>
+                    <a href="#" class="d-flex justify-content-between">
+                        <p>Muestreo</p>
                     </a>
                 </li>
                 <li>

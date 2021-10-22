@@ -1,20 +1,20 @@
 <?php
 session_start();
-include_once './../modelo/EstanqueDao.php';
-$obj = new EstanqueDao();
+include_once './../modelo/SiembraDao.php';
+$obj = new SiembraDao();
 $usuario = $_SESSION["usuario"][0][0];
 $data = $obj->ListarTodos($usuario);
 ?>
 <table  id="example" class="table table-striped table-bordered table-responsive-sm table-responsive-lg " >
     <thead>
         <tr>
-            <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Forma</th>
-            <th>Area</th>
-            <th>Volumen</th>
+            <th>Fecha</th>
+            <th>Especie</th>
+            <th>Procedencia</th>
+            <th>Cantidad</th>
+            <th>Peso</th>
             <th>Estado</th>
+            <th>Observacion</th>
             <th>Accion</th>
         </tr>
     </thead>
@@ -31,10 +31,10 @@ $data = $obj->ListarTodos($usuario);
                 <td><?php echo $row[5]; ?></td>
                 <td><?php echo $row[6]; ?></td>
                 <td>
-                    <a href="javascript:void(0)" onclick="Editar(<?= $row[0] ?>)" class="btn btn-info btn-sm" title="Editar">
+                    <a href="javascript:void(0)" onclick="Editar(<?= $row[8] ?>)" class="btn btn-info btn-sm" title="Editar">
                         <i class="fa fa-edit"> </i>
                     </a>
-                    <a href="javascript:void(0)" onclick="Eliminar(<?= $row[0] ?>)" class="btn btn-danger btn-sm" title="Eliminar">
+                    <a href="javascript:void(0)" onclick="Eliminar(<?= $row[8] ?>)" class="btn btn-danger btn-sm" title="Eliminar">
                         <i class="fa fa-trash"> </i>
                     </a>
                 </td>

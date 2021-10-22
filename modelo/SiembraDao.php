@@ -2,14 +2,14 @@
 
 require_once '../database/Conexion.php';
 
-class EstanqueDao {
+class SiembraDao {
 
-    public function CrearEstanque($datos) {
+    public function CrearSiembra($datos) {
         $cn = new Conexion();
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "insert into Estanque (nombre_estanque,tipo_estanque,forma_estanque,area_estanque,volumen_agua_estanque,estado_estanque,id_usuario) values(?,?,?,?,?,?,?)";
+        $sql = "insert into Siembra(fecha_siembra,especie_siembra,procedencia_siembra,cantidad_siembra,peso_siembra,estado_siembra,observacion_siembra,id_estanque) values(?,?,?,?,?,?,?,?)";
 
         $sql = $conectar->prepare($sql);
 
@@ -20,6 +20,8 @@ class EstanqueDao {
         $sql->bindValue(5, $datos[4]);
         $sql->bindValue(6, $datos[5]);
         $sql->bindValue(7, $datos[6]);
+        $sql->bindValue(8, $datos[7]);
+
         $sql->execute();
 
         $id = $conectar->lastInsertId();
@@ -32,8 +34,8 @@ class EstanqueDao {
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "select id_estanque, nombre_estanque , tipo_estanque,forma_estanque,area_estanque,volumen_agua_estanque,estado_estanque"
-                . " from Estanque"
+        $sql = "select fecha_siembra,especie_siembra,procedencia_siembra,cantidad_siembra,peso_siembra,estado_siembra,observacion_siembra,e.id_estanque,id_siembra "
+                . " from Siembra s inner join estanque e on e.id_estanque= s.id_estanque "
                 . " where id_usuario=?";
 
         $sql = $conectar->prepare($sql);
@@ -48,7 +50,7 @@ class EstanqueDao {
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "delete from Estanque where id_estanque=?";
+        $sql = "delete from Siembra where id_siembra=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $id);
@@ -62,9 +64,9 @@ class EstanqueDao {
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "select id_estanque, nombre_estanque , tipo_estanque,forma_estanque,area_estanque,volumen_agua_estanque,estado_estanque"
-                . " from Estanque"
-                . " where id_estanque=?";
+        $sql = "select fecha_siembra,especie_siembra,procedencia_siembra,cantidad_siembra,peso_siembra,estado_siembra,observacion_siembra,e.id_estanque,id_siembra  "
+                . " from Siembra s inner join estanque e on e.id_estanque= s.id_estanque "
+                . " where id_siembra=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $id);
@@ -73,14 +75,14 @@ class EstanqueDao {
         return $resultado = $sql->fetchAll();
     }
 
-    public function EditarEstanque($datos) {
+    public function EditarSiembra($datos) {
         $cn = new Conexion();
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "update Estanque set nombre_estanque =?,tipo_estanque=?,forma_estanque=?,area_estanque=?, "
-                . " volumen_agua_estanque =?,estado_estanque = ?"
-                . " where id_estanque =?";
+        $sql = "update Siembra set fecha_siembra =?,especie_siembra=?,procedencia_siembra=?,cantidad_siembra=?, "
+                . " peso_siembra =?, estado_siembra = ? , observacion_siembra = ? , id_estanque = ?"
+                . " where id_siembra =?";
 
         $sql = $conectar->prepare($sql);
 
@@ -91,6 +93,8 @@ class EstanqueDao {
         $sql->bindValue(5, $datos[4]);
         $sql->bindValue(6, $datos[5]);
         $sql->bindValue(7, $datos[6]);
+        $sql->bindValue(8, $datos[7]);
+        $sql->bindValue(9, $datos[8]);
         return $sql->execute();
     }
 

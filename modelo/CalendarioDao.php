@@ -2,14 +2,14 @@
 
 require_once '../database/Conexion.php';
 
-class EstanqueDao {
+class CalendarioDao {
 
-    public function CrearEstanque($datos) {
+    public function CrearCalendario($datos) {
         $cn = new Conexion();
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "insert into Estanque (nombre_estanque,tipo_estanque,forma_estanque,area_estanque,volumen_agua_estanque,estado_estanque,id_usuario) values(?,?,?,?,?,?,?)";
+        $sql = "insert into Calendario(fecha_calendario,  hora_calendario,evento_calendario,estado_calendario,observacion_calendario,id_usuario) values(?,?,?,?,?,?)";
 
         $sql = $conectar->prepare($sql);
 
@@ -19,7 +19,6 @@ class EstanqueDao {
         $sql->bindValue(4, $datos[3]);
         $sql->bindValue(5, $datos[4]);
         $sql->bindValue(6, $datos[5]);
-        $sql->bindValue(7, $datos[6]);
         $sql->execute();
 
         $id = $conectar->lastInsertId();
@@ -32,8 +31,8 @@ class EstanqueDao {
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "select id_estanque, nombre_estanque , tipo_estanque,forma_estanque,area_estanque,volumen_agua_estanque,estado_estanque"
-                . " from Estanque"
+        $sql = "select id_calendario , fecha_calendario,  hora_calendario,evento_calendario,estado_calendario,observacion_calendario,id_usuario"
+                . " from Calendario"
                 . " where id_usuario=?";
 
         $sql = $conectar->prepare($sql);
@@ -48,7 +47,7 @@ class EstanqueDao {
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "delete from Estanque where id_estanque=?";
+        $sql = "delete from Calendario where id_calendario=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $id);
@@ -62,9 +61,9 @@ class EstanqueDao {
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "select id_estanque, nombre_estanque , tipo_estanque,forma_estanque,area_estanque,volumen_agua_estanque,estado_estanque"
-                . " from Estanque"
-                . " where id_estanque=?";
+         $sql = "select id_calendario , fecha_calendario,  hora_calendario,evento_calendario,estado_calendario,observacion_calendario,id_usuario"
+                . " from Calendario"
+                . " where id_calendario=?";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $id);
@@ -73,14 +72,14 @@ class EstanqueDao {
         return $resultado = $sql->fetchAll();
     }
 
-    public function EditarEstanque($datos) {
+    public function EditarCalendario($datos) {
         $cn = new Conexion();
         $conectar = $cn->getConexion();
         $cn->set_names();
 
-        $sql = "update Estanque set nombre_estanque =?,tipo_estanque=?,forma_estanque=?,area_estanque=?, "
-                . " volumen_agua_estanque =?,estado_estanque = ?"
-                . " where id_estanque =?";
+        $sql = "update Calendario set fecha_calendario =?,hora_calendario=?,evento_calendario=?,estado_calendario=?, "
+                . " observacion_calendario =? "
+                . " where id_calendario =?";
 
         $sql = $conectar->prepare($sql);
 
@@ -90,7 +89,6 @@ class EstanqueDao {
         $sql->bindValue(4, $datos[3]);
         $sql->bindValue(5, $datos[4]);
         $sql->bindValue(6, $datos[5]);
-        $sql->bindValue(7, $datos[6]);
         return $sql->execute();
     }
 

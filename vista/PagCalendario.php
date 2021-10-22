@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Estanque</title>
+        <title>Calendario</title>
         <?php include_once './includes/recurso.php'; ?>
     </head>
     <body style="background: #d7f5f9;">
@@ -48,68 +48,43 @@
                                                     <form id="frmCrear">
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label for="nombre">Nombre</label>
-                                                                <input type="text" class="form-control" id="nombre" name="nombre">
+                                                                <label>Fecha</label>
+                                                                <input type="date" class="form-control" id="fecha" name="fecha">
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label for="inputPassword4">Area (m2)</label>
-                                                                <input type="number" class="form-control" id="area" name="area">
+                                                                <label>Hora</label>
+                                                                <input type="time" class="form-control" id="hora" name="hora">
                                                             </div>
                                                         </div>
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label for="tipo">Tipo</label>
-                                                                <select class="form-control" name="tipo" id="tipo">
-                                                                    <option value="Cemento">Cemento</option>
-                                                                    <option value="Jaula">Jaula</option>
-                                                                    <option value="Tierra">Tierra</option>
-                                                                </select>
-                                                            </div>
+                                                                <label>Evento</label>
+                                                                <input type="text" class="form-control" id="evento" name="evento">
 
-                                                            <div class="form-group col-md-6">
-                                                                <label for="volumen">Volumen agua (m3)</label>
-                                                                <input type="number" class="form-control" id="volumen" name="volumen">
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="tipo">Forma</label>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="forma" id="gridRadios1" value="Circular" checked>
-                                                                    <label class="form-check-label" for="gridRadios1">
-                                                                        Circular
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="forma" id="gridRadios2" value="Rectangular">
-                                                                    <label class="form-check-label" for="gridRadios2">
-                                                                        Rectangular
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="forma" id="gridRadios3" value="Cuadrado">
-                                                                    <label class="form-check-label" for="gridRadios3">
-                                                                        Cuadrado
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-group col-md-6">
-                                                                <label for="estado">Estado</label>
+                                                                <br>
+                                                                <label>Estado</label>
                                                                 <select class="form-control" name="estado" id="estado">
-                                                                    <option value="Libre">Libre</option>
-                                                                    <option value="Ocupado">Ocupado</option>
-                                                                    <option value="Mantenimiento">Mantenimiento</option>
+                                                                    <option value="En Proceso">En Proceso</option>
+                                                                    <option value="Finalizado">Finalizado</option>
+                                                                    <option value="Postergado">Postergado</option>
+                                                                    <option value="Cancelado">Cancelado</option>
                                                                 </select>
                                                             </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Comentarios</label>
+                                                                <textarea class="form-control" id="comentarios" name="comentarios" rows="6"></textarea>
+                                                            </div>
                                                         </div>
-                                                        <input type="hidden" name="id_estanque" id="id_estanque">
+
+
+
+                                                        <input type="hidden" name="id_calendario" id="id_calendario">
                                                         <input type="hidden" name="accion" id="accion" value="crear">
-                                                        <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearEstanque()">Guardar</button>
-                                                        <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarEstanque()">Editar</button>
+                                                        <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearCalendario()">Guardar</button>
+                                                        <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarCalendario()">Editar</button>
                                                         <button type="reset" class="btn btn-danger" onclick="Resetear()">Nuevo</button>
+
                                                     </form>
                                                 </div>
                                             </div>
@@ -119,7 +94,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div id="mensaje2"></div>
-                                                    <div  id="listadoEstanque"></div>
+                                                    <div  id="listadoCalendario"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,12 +126,11 @@
         }
 
         function ValidarCampos() {
-            var nombre = $("#nombre").val();
-            var area = $("#area").val();
-            var volumen = $("#volumen").val();
+            var evento = $("#evento").val();
 
-            if (nombre === "" | area === "" || volumen === "") {
-                Mensaje("mensaje", "danger", "Por favor complete todos los campos.");
+
+            if (evento === "" ) {
+                Mensaje("mensaje", "danger", "Por favor ingrese nombre del evento.");
                 return false;
             }
 
@@ -174,14 +148,14 @@
             $.ajax({
                 type: "GET",
                 dataType: 'html',
-                url: "./../controlador/ControlEstanque.php?accion=listar",
+                url: "./../controlador/ControlCalendario.php?accion=listar",
                 success: function (data) {
-                    $("#listadoEstanque").html(data);
+                    $("#listadoCalendario").html(data);
                 }
             });
         }
 
-        function CrearEstanque() {
+        function CrearCalendario() {
             if (!ValidarCampos()) {
                 return;
             }
@@ -190,14 +164,14 @@
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlEstanque.php",
+                url: "./../controlador/ControlCalendario.php",
                 success: function (data) {
                     if (parseInt(data) > 0) {
-                        Mensaje("mensaje", "success", "Estanque creado correctamente.!");
+                        Mensaje("mensaje", "success", "Calendario creado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Listar();
                     } else {
-                        Mensaje("mensaje", "danger", "No se ha podido crear estanque.");
+                        Mensaje("mensaje", "danger", "No se ha podido crear calendario.");
                     }
                 }, error: function (jqXHR, textStatus, errorThrown) {
                     Mensaje("mensaje", "danger", "Ha ocurrido un error interno.");
@@ -215,10 +189,10 @@
                 $.ajax({
                     type: "GET",
                     data: "id=" + id,
-                    url: "./../controlador/ControlEstanque.php?accion=eliminar",
+                    url: "./../controlador/ControlCalendario.php?accion=eliminar",
                     success: function (data) {
                         if (parseInt(data) > 0) {
-                            Mensaje("mensaje2", "success", "El estanque con el id " + id + " se elimino correctamente!!");
+                            Mensaje("mensaje2", "success", "El calendario con el id " + id + " se elimino correctamente!!");
                             Listar();
                         } else {
                             Mensaje("mensaje2", "danger", "No se puede eliminar por una dependencia de llave foranea !");
@@ -226,6 +200,7 @@
                     }
                 });
             }, function () {
+                
             });
 
         }
@@ -238,15 +213,15 @@
                     id: id,
                     accion: "buscarPorId"
                 },
-                url: "./../controlador/ControlEstanque.php",
+                url: "./../controlador/ControlCalendario.php",
                 success: function (data) {
-                    $("input[name=forma][value='" + data.forma_estanque + "']").prop("checked", true);
-                    $("#nombre").val(data.nombre_estanque);
-                    $("#area").val(data.area_estanque);
-                    $("#tipo").val(data.tipo_estanque);
-                    $("#volumen").val(data.volumen_agua_estanque);
-                    $("#estado").val(data.estado_estanque);
-                    $("#id_estanque").val(id);
+                    $("#fecha").val(data.fecha_calendario);
+                    $("#hora").val(data.hora_calendario);
+                    $("#evento").val(data.evento_calendario);
+                    $("#estado").val(data.estado_calendario);
+                    $("#comentarios").val(data.observacion_calendario);
+                    $("#id_calendario").val(data.id_calendario);
+                    
                     $("#myTab a:first").parent("li").show();
                     $("#myTab a:first").tab('show');
                     $("#btnCrear").hide();
@@ -258,7 +233,7 @@
             });
         }
 
-        function EditarEstanque() {
+        function EditarCalendario() {
             if (!ValidarCampos()) {
                 return;
             }
@@ -267,15 +242,15 @@
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlEstanque.php",
+                url: "./../controlador/ControlCalendario.php",
                 success: function (data) {
                     if (data) {
-                        Mensaje("mensaje", "success", "Estanque editado correctamente.!");
+                        Mensaje("mensaje", "success", "Calendario editado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Resetear();
                         Listar();
                     } else {
-                        Mensaje("mensaje", "danger", "No se ha podido editar datos del estanque.");
+                        Mensaje("mensaje", "danger", "No se ha podido editar datos del calendario.");
                     }
 
                 }, error: function (jqXHR, textStatus, errorThrown) {
