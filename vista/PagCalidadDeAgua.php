@@ -38,9 +38,6 @@
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#listado" role="tab" aria-controls="contact" aria-selected="false">Listado</a>
                                         </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#salida" role="tab" aria-controls="contact" aria-selected="false">Salida</a>
-                                        </li>
                                     </ul>
                                     <div class="tab-content" id="crear">
                                         <div class="tab-pane fade show active" id="mantenimiento" role="tabpanel" aria-labelledby="profile-tab">
@@ -100,6 +97,7 @@
                                                                         <th></th>
                                                                         <th>Nivel MAX</th>
                                                                         <th>ÓPTIMO</th>
+                                                                        <th>Estado</th>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Temperatura </td>
@@ -112,6 +110,9 @@
                                                                         </td>
                                                                         <td> 12  </td>
                                                                         <td> 8,5 ppm</td>
+                                                                        <td>             
+                                                                            <span id="label_estado_temperatura_calidad" class="badge badge-primary"></span>
+                                                                        </td>
                                                                     </tr>
 
                                                                     <tr>
@@ -126,6 +127,9 @@
                                                                         </td>
                                                                         <td> 18  </td>
                                                                         <td>15 Cº</td>
+                                                                        <td>             
+                                                                            <span id="label_estado_oxigeno_calidad" class="badge badge-primary"></span>
+                                                                        </td>
                                                                     </tr>
 
                                                                     <tr>
@@ -134,13 +138,15 @@
                                                                         <td> 
                                                                             <div class="form-group">
                                                                                 <span id="label_ph" class="badge badge-info"></span>
-                                                                                <input type="range" class="form-control-range" id="ph" name="ph" min="6.5" max="8.5" step="0.1"    oninput="MostrarValor(this)">
+                                                                                <input type="range" class="form-control-range" id="ph" name="ph" min="6.5" max="8.5" step="0.1"    oninput="MostrarValor(this)" >
                                                                             </div>
                                                                         </td>
                                                                         <td> 8.5  </td>
                                                                         <td>7 pH</td>
+                                                                        <td>             
+                                                                            <span id="label_estado_ph" class="badge badge-primary"></span>
+                                                                        </td>
                                                                     </tr>
-
 
                                                                     <tr>
                                                                         <td>Alcalinidad </td>
@@ -153,6 +159,9 @@
                                                                         </td>
                                                                         <td> 110  </td>
                                                                         <td>95 mg/l</td>
+                                                                        <td>             
+                                                                            <span id="label_estado_alcalinidad_calidad" class="badge badge-primary"></span>
+                                                                        </td>
                                                                     </tr>
 
                                                                     <tr>
@@ -166,6 +175,9 @@
                                                                         </td>
                                                                         <td> 200  </td>
                                                                         <td>140 mg/l</td>
+                                                                        <td>             
+                                                                            <span id="label_estado_dureza_calidad" class="badge badge-primary"></span>
+                                                                        </td>
                                                                     </tr>
 
 
@@ -200,13 +212,11 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div id="mensaje2"></div>
-                                                    <div  id="listadoSiembra"></div>
+                                                    <div class="table-responsive">
+                                                        <div  id="listadoSiembra"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="tab-pane fade" id="salida" role="tabpanel" aria-labelledby="salida-tab" >
-                                            Salida
                                         </div>
                                     </div>
                                 </aside>
@@ -222,11 +232,65 @@
     <script type="text/javascript">
         $(function () {
             Listar();
+            CargarDatosIniciales();
             $("#btnEditar").hide();
         });
 
+        function CargarDatosIniciales() {
+            MostrarValor({name: "temperatura_calidad", value: $("#temperatura_calidad").val()});
+            MostrarValor({name: "oxigeno_calidad", value:  $("#oxigeno_calidad").val()});
+            MostrarValor({name: "ph", value:  $("#ph").val()});
+            MostrarValor({name: "alcalinidad_calidad", value:  $("#alcalinidad_calidad").val()});
+            MostrarValor({name: "dureza_calidad", value:  $("#dureza_calidad").val()});
+        }
+
         function MostrarValor(data) {
             $("#label_" + data.name).html(data.value);
+            CambiarEstado(data);
+        }
+
+        function CambiarEstado(data) {
+            var nombre = data.name;
+            var valor = parseFloat(data.value);
+            var estado = false;
+
+            switch (nombre) {
+                case "temperatura_calidad":
+                    if (valor >= 8 && valor <= 10) {
+                        estado = true;
+                    }
+                    break;
+                case "oxigeno_calidad":
+                    if (valor >= 14 && valor <= 16) {
+                        estado = true;
+                    }
+                    break;
+                case "ph":
+                    if (valor >= 6 && valor <= 8) {
+                        estado = true;
+                    }
+                    break;
+                case "alcalinidad_calidad":
+                    if (valor >= 90 && valor <= 100) {
+                        estado = true;
+                    }
+                    break;
+                case "dureza_calidad":
+                    if (valor >= 130 && valor <= 150) {
+                        estado = true;
+                    }
+                    break;
+            }
+
+            if (estado) {
+                $("#label_estado_" + nombre).removeClass("badge badge-danger");
+                $("#label_estado_" + nombre).addClass("badge badge-primary");
+                $("#label_estado_" + nombre).html("Normal");
+            } else {
+                $("#label_estado_" + nombre).removeClass("badge badge-primary");
+                $("#label_estado_" + nombre).addClass("badge badge-danger");
+                $("#label_estado_" + nombre).html("Alarma");
+            }
         }
 
         function Resetear() {
@@ -343,7 +407,7 @@
                 url: "./../controlador/ControlCalidadDeAgua.php",
                 success: function (data) {
                     $("input[name=anomalia][value='" + data.observaciones_calidad + "']").prop("checked", true);
-                    $("#fecha").val(data.fecha_calidad.replace(" " , "T"));
+                    $("#fecha").val(data.fecha_calidad.replace(" ", "T"));
                     $("#estanque").val(data.id_estanque);
                     $("#temperatura_calidad").val(data.temperatura_calidad);
                     $("#oxigeno_calidad").val(data.oxigeno_calidad);
@@ -356,6 +420,13 @@
                     $("#btnCrear").hide();
                     $("#btnEditar").show();
                     $("#accion").val("editar");
+
+                    CambiarEstado({name: "temperatura_calidad", value: data.temperatura_calidad});
+                    CambiarEstado({name: "oxigeno_calidad", value: data.oxigeno_calidad});
+                    CambiarEstado({name: "ph", value: data.ph_calidad});
+                    CambiarEstado({name: "alcalinidad_calidad", value: data.alcalinidad_calidad});
+                    CambiarEstado({name: "dureza_calidad", value: data.dureza_calidad});
+
                 }, error: function (jqXHR, textStatus, errorThrown) {
                     Mensaje("mensaje", "danger", "Ha ocurrido un error interno.");
                 }

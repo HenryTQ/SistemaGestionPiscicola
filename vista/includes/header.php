@@ -12,11 +12,11 @@
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav justify-content-end">
                         <li class="nav-item <?php if (basename($_SERVER["REQUEST_URI"]) == 'inicio.php') echo "active"; ?>"><a class="nav-link" href="./inicio.php">Inicio</a></li> 
-                        <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li> 
-                        <li class="nav-item"><a class="nav-link" href="#">Servicios</a></li> 
-                        <li class="nav-item"><a class="nav-link" href="#">Proyectos</a></li> 
-                        <li class="nav-item"><a class="nav-link" href="#">Novedades</a></li> 
-                        <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li> 
+                        <li class="nav-item <?php if (basename($_SERVER["REQUEST_URI"]) == 'Nosotros.php') echo "active"; ?>"><a class="nav-link" href="Nosotros.php">Nosotros</a></li> 
+                        <li class="nav-item <?php if (basename($_SERVER["REQUEST_URI"]) == 'Servicios.php') echo "active"; ?>"><a class="nav-link" href="Servicios.php">Servicios</a></li> 
+                        <li class="nav-item <?php if (basename($_SERVER["REQUEST_URI"]) == 'Proyectos.php') echo "active"; ?>"><a class="nav-link" href="Proyectos.php">Proyectos</a></li> 
+                        <li class="nav-item <?php if (basename($_SERVER["REQUEST_URI"]) == 'Novedades.php') echo "active"; ?>"><a class="nav-link" href="Novedades.php">Novedades</a></li> 
+                        <li class="nav-item <?php if (basename($_SERVER["REQUEST_URI"]) == 'Contacto.php') echo "active"; ?>"><a class="nav-link" href="Contacto.php">Contacto</a></li> 
                         <!--
                            <li class="nav-item active submenu dropdown">
                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

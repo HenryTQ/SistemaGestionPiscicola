@@ -107,5 +107,13 @@ create table Muestreo(
 insert into usuario values(1 , 'juan-56' , 'juan56-12@gmail.com' , '123456');
 insert into usuario values(2 , 'gomez-46' , 'gomez.salvatierra@gmail.com' , '123456');
 
+-- ADICION
+alter table Alimentacion add id_usuario int;
 
+alter table Cosecha add id_usuario int;
+
+alter table Cosecha add fecha_cosecha date;
+
+ALTER TABLE cosecha DROP COLUMN lote_cosecha;
+ALTER TABLE cosecha ADD lote_cosecha VARCHAR(100); 
 

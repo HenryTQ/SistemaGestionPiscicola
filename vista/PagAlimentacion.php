@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Calendario</title>
+        <title>Alimentación</title>
         <?php include_once './includes/recurso.php'; ?>
     </head>
     <body style="background: #d7f5f9;">
@@ -13,6 +13,14 @@
         session_start();
         include_once './includes/section.php';
         include_once './includes/header.php';
+
+        include_once './../modelo/EstanqueDao.php';
+        include_once './../modelo/SiembraDao.php';
+
+        $objEst = new EstanqueDao();
+        $objSiem = new SiembraDao();
+        $data_estanque = $objEst->ListarTodos($_SESSION["usuario"][0][0]);
+        $data_siembra = $objSiem->ListarTodos($_SESSION["usuario"][0][0]);
         ?>
 
         <section class="blog_area pb-xl-4">
@@ -34,9 +42,6 @@
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#listado" role="tab" aria-controls="contact" aria-selected="false">Listado</a>
                                         </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#salida" role="tab" aria-controls="contact" aria-selected="false">Salida</a>
-                                        </li>
                                     </ul>
                                     <div class="tab-content" id="crear">
                                         <div class="tab-pane fade show active" id="mantenimiento" role="tabpanel" aria-labelledby="profile-tab">
@@ -52,38 +57,69 @@
                                                                 <input type="date" class="form-control" id="fecha" name="fecha">
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label>Hora</label>
-                                                                <input type="time" class="form-control" id="hora" name="hora">
+                                                                <label >Marca</label>
+                                                                <input type="text" class="form-control" id="marca" name="marca">
                                                             </div>
                                                         </div>
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label>Evento</label>
-                                                                <input type="text" class="form-control" id="evento" name="evento">
-
-                                                                <br>
-                                                                <label>Estado</label>
-                                                                <select class="form-control" name="estado" id="estado">
-                                                                    <option value="En Proceso">En Proceso</option>
-                                                                    <option value="Finalizado">Finalizado</option>
-                                                                    <option value="Postergado">Postergado</option>
-                                                                    <option value="Cancelado">Cancelado</option>
+                                                                <label>Estaque</label>
+                                                                <select class="form-control" name="estanque" id="estanque">
+                                                                    <option value="0">:::Seleccione:::</option>
+                                                                    <?php foreach ($data_estanque as $key => $row) : ?>
+                                                                        <option value="<?php echo $row[1] ?>"><?php echo $row[1]; ?></option>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </div>
 
                                                             <div class="form-group col-md-6">
-                                                                <label>Comentarios</label>
-                                                                <textarea class="form-control" id="comentarios" name="comentarios" rows="6"></textarea>
+                                                                <label >Lote alimento</label>
+                                                                <select class="form-control" name="lote_alimento" id="lote_alimento">
+                                                                    <option value="0">:::Seleccione:::</option>
+                                                                    <option value="IA2021-01">IA2021-01</option>
+                                                                    <option value="IA2021-02">IA2021-02</option>
+                                                                    <option value="IA2021-03">IA2021-03</option>
+                                                                </select>
                                                             </div>
                                                         </div>
 
 
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Tipo de alimento</label>
+                                                                <input type="text" class="form-control" id="tipo_alimento" name="tipo_alimento">
+                                                            </div>
 
-                                                        <input type="hidden" name="id_calendario" id="id_calendario">
-                                                        <input type="hidden" name="accion" id="accion" value="crear">
-                                                        <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearCalendario()">Guardar</button>
-                                                        <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarCalendario()">Editar</button>
-                                                        <button type="reset" class="btn btn-danger" onclick="Resetear()">Nuevo</button>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Cantidad de alimento</label>
+                                                                <input type="text" class="form-control" id="cantidad" name="cantidad">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Lote siembra</label>
+                                                                <select class="form-control" name="lote_siembra" id="lote_siembra">
+                                                                    <option value="0">:::Seleccione:::</option>
+                                                                    <?php foreach ($data_siembra as $key => $row) : ?>
+                                                                        <option value="<?php echo $row[1] ?>"><?php echo $row[8]; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+
+                                                                <br>
+
+                                                                <div>
+                                                                    <input type="hidden" name="id_alimentacion" id="id_alimentacion">
+                                                                    <input type="hidden" name="accion" id="accion" value="crear">
+                                                                    <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearAlimentacion()">Guardar</button>
+                                                                    <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarAlimentacion()">Editar</button>
+                                                                    <button type="reset" class="btn btn-danger" onclick="Resetear()">Nuevo</button>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
 
                                                     </form>
                                                 </div>
@@ -95,14 +131,11 @@
                                                 <div class="card-body">
                                                     <div id="mensaje2"></div>
                                                     <div class="table-responsive">
-                                                        <div  id="listadoCalendario"></div>
+                                                        <div  id="listadoAlimentacion"></div>
                                                     </div>
+
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="tab-pane fade" id="salida" role="tabpanel" aria-labelledby="salida-tab" >
-                                            Salida
                                         </div>
                                     </div>
                                 </aside>
@@ -128,11 +161,40 @@
         }
 
         function ValidarCampos() {
-            var evento = $("#evento").val();
+            var marca = $("#marca").val();
+            var estanque = $("#estanque").val();
+            var lote_alimento = $("#lote_alimento").val();
+            var tipo_alimento = $("#tipo_alimento").val();
+            var lote_siembra = $("#lote_siembra").val();
+            var cantidad = $("#cantidad").val();
 
+            if (marca === "") {
+                Mensaje("mensaje", "danger", "El campo de la marca es requerido.");
+                return false;
+            }
 
-            if (evento === "") {
-                Mensaje("mensaje", "danger", "Por favor ingrese nombre del evento.");
+            if (tipo_alimento === "") {
+                Mensaje("mensaje", "danger", "El campo del tipo de alimento es requerido.");
+                return false;
+            }
+
+            if (parseInt(estanque) === 0) {
+                Mensaje("mensaje", "danger", "Por favor seleccione un estanque.");
+                return false;
+            }
+
+            if (parseInt(lote_alimento) === 0) {
+                Mensaje("mensaje", "danger", "Por favor seleccione un lote de alimento.");
+                return false;
+            }
+
+            if (parseInt(lote_siembra) === 0) {
+                Mensaje("mensaje", "danger", "Por favor seleccione un lote de siembra.");
+                return false;
+            }
+
+            if (cantidad === "") {
+                Mensaje("mensaje", "danger", "El campo de la cantidad es requerido.");
                 return false;
             }
 
@@ -150,32 +212,33 @@
             $.ajax({
                 type: "GET",
                 dataType: 'html',
-                url: "./../controlador/ControlCalendario.php?accion=listar",
+                url: "./../controlador/ControlAlimentacion.php?accion=listar",
                 success: function (data) {
-                    $("#listadoCalendario").html(data);
+                    $("#listadoAlimentacion").html(data);
                 }
             });
         }
 
-        function CrearCalendario() {
+        function CrearAlimentacion() {
             if (!ValidarCampos()) {
                 return;
             }
-
+            console.dir( $("#frmCrear").serialize());
             $.ajax({
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlCalendario.php",
+                url: "./../controlador/ControlAlimentacion.php",
                 success: function (data) {
                     if (parseInt(data) > 0) {
-                        Mensaje("mensaje", "success", "Calendario creado correctamente.!");
+                        Mensaje("mensaje", "success", "Alimentación creado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Listar();
                     } else {
-                        Mensaje("mensaje", "danger", "No se ha podido crear calendario.");
+                        Mensaje("mensaje", "danger", "No se ha podido crear alimentación.");
                     }
                 }, error: function (jqXHR, textStatus, errorThrown) {
+                    console.dir(jqXHR);
                     Mensaje("mensaje", "danger", "Ha ocurrido un error interno.");
                 }
             });
@@ -191,10 +254,10 @@
                 $.ajax({
                     type: "GET",
                     data: "id=" + id,
-                    url: "./../controlador/ControlCalendario.php?accion=eliminar",
+                    url: "./../controlador/ControlAlimentacion.php?accion=eliminar",
                     success: function (data) {
                         if (parseInt(data) > 0) {
-                            Mensaje("mensaje2", "success", "El calendario con el id " + id + " se elimino correctamente!!");
+                            Mensaje("mensaje2", "success", "La alimentación con el id " + id + " se elimino correctamente!!");
                             Listar();
                         } else {
                             Mensaje("mensaje2", "danger", "No se puede eliminar por una dependencia de llave foranea !");
@@ -202,12 +265,12 @@
                     }
                 });
             }, function () {
-
             });
 
         }
 
         function Editar(id) {
+
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -215,15 +278,16 @@
                     id: id,
                     accion: "buscarPorId"
                 },
-                url: "./../controlador/ControlCalendario.php",
+                url: "./../controlador/ControlAlimentacion.php",
                 success: function (data) {
-                    $("#fecha").val(data.fecha_calendario);
-                    $("#hora").val(data.hora_calendario);
-                    $("#evento").val(data.evento_calendario);
-                    $("#estado").val(data.estado_calendario);
-                    $("#comentarios").val(data.observacion_calendario);
-                    $("#id_calendario").val(data.id_calendario);
-
+                    $("#lote_alimento").val(data.lote_alimento);
+                    $("#fecha").val(data.fecha_alimento);
+                    $("#marca").val(data.marca_alimento);
+                    $("#cantidad").val(data.cantidad_alimento);
+                    $("#estanque").val(data.estanque_alimentacion);
+                    $("#lote_siembra").val(data.lote_siembra_alimentado); 
+                    $("#tipo_alimento").val(data.tipo_alimento);
+                    $("#id_alimentacion").val(id);
                     $("#myTab a:first").parent("li").show();
                     $("#myTab a:first").tab('show');
                     $("#btnCrear").hide();
@@ -235,7 +299,7 @@
             });
         }
 
-        function EditarCalendario() {
+        function EditarAlimentacion() {
             if (!ValidarCampos()) {
                 return;
             }
@@ -244,15 +308,16 @@
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlCalendario.php",
+                url: "./../controlador/ControlAlimentacion.php",
                 success: function (data) {
+                    console.dir(data);
                     if (data) {
-                        Mensaje("mensaje", "success", "Calendario editado correctamente.!");
+                        Mensaje("mensaje", "success", "Alimentación editado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Resetear();
                         Listar();
                     } else {
-                        Mensaje("mensaje", "danger", "No se ha podido editar datos del calendario.");
+                        Mensaje("mensaje", "danger", "No se ha podido editar datos de la alimentación.");
                     }
 
                 }, error: function (jqXHR, textStatus, errorThrown) {

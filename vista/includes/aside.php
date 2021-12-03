@@ -36,18 +36,18 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Alimentación</p>
+                    <a href="./PagAlimentacion.php" class="d-flex justify-content-between">
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagAlimentacion.php') echo "btn btn-lg btn-success btn-block"; ?>" >Alimentación</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Cosecha</p>
+                    <a href="PagCosecha.php" class="d-flex justify-content-between">
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagCosecha.php') echo "btn btn-lg btn-success btn-block"; ?>" >Cosecha</p>
                     </a>
                 </li>
-                   <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Muestreo</p>
+                <li>
+                    <a href="PagMuestreo.php" class="d-flex justify-content-between">
+                        <p  class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'PagMuestreo.php') echo "btn btn-lg btn-success btn-block"; ?>">Muestreo</p>
                     </a>
                 </li>
                 <li>
@@ -85,25 +85,27 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Historia</p>
+                    <a href="./Historia.php" class="d-flex justify-content-between">
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'Historia.php') echo "btn btn-lg btn-success btn-block"; ?>"  >Historia</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Software SGP</p>
+                    <a href="./SoftwareSGP.php" class="d-flex justify-content-between">
+                        <p class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'SoftwareSGP.php') echo "btn btn-lg btn-success btn-block"; ?>"  >Software SGP</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Galeria</p>
+                    <a href="./Galeria.php" class="d-flex justify-content-between">
+                        <p  class="<?php if (basename($_SERVER["REQUEST_URI"]) == 'Galeria.php') echo "btn btn-lg btn-success btn-block"; ?>"  >Galeria</p>
                     </a>
                 </li>
+                <!-- 
                 <li>
                     <a href="#" class="d-flex justify-content-between">
                         <p>Ayuda</p>
                     </a>
                 </li>
+                -->
             </ul>
         </aside>
     <?php

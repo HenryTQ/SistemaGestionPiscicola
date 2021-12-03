@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Calendario</title>
+        <title>Cosecha</title>
         <?php include_once './includes/recurso.php'; ?>
     </head>
     <body style="background: #d7f5f9;">
@@ -13,6 +13,13 @@
         session_start();
         include_once './includes/section.php';
         include_once './includes/header.php';
+
+        include_once './../modelo/EstanqueDao.php';
+        include_once './../modelo/SiembraDao.php';
+        $objEstanque = new EstanqueDao();
+        $objSiembra = new SiembraDao();
+        $data_estanque = $objEstanque->ListarTodos($_SESSION["usuario"][0][0]);
+        $data_siembra = $objSiembra->ListarTodos($_SESSION["usuario"][0][0]);
         ?>
 
         <section class="blog_area pb-xl-4">
@@ -34,9 +41,6 @@
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#listado" role="tab" aria-controls="contact" aria-selected="false">Listado</a>
                                         </li>
-                                        <li class="nav-item" role="presentation">
-                                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#salida" role="tab" aria-controls="contact" aria-selected="false">Salida</a>
-                                        </li>
                                     </ul>
                                     <div class="tab-content" id="crear">
                                         <div class="tab-pane fade show active" id="mantenimiento" role="tabpanel" aria-labelledby="profile-tab">
@@ -48,42 +52,69 @@
                                                     <form id="frmCrear">
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label>Fecha</label>
+                                                                <label>Fecha Cosecha</label>
                                                                 <input type="date" class="form-control" id="fecha" name="fecha">
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label>Hora</label>
-                                                                <input type="time" class="form-control" id="hora" name="hora">
+                                                                <label >Cantidad</label>
+                                                                <input type="number" class="form-control" id="cantidad" name="cantidad">
                                                             </div>
                                                         </div>
+
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label>Evento</label>
-                                                                <input type="text" class="form-control" id="evento" name="evento">
+                                                                <label >Lote</label>
+                                                                <select class="form-control" name="lote_cosecha" id="lote_cosecha">
+                                                                    <option value="0">:::Seleccione:::</option>
+                                                                    <?php foreach ($data_siembra as $key => $row) : ?>
+                                                                        <option value="<?php echo $row[1] ?>"><?php echo $row[8] . " - " . $row[1]; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Especie</label>
+                                                                <select class="form-control" name="especie" id="especie">
+                                                                    <option value="Trucha Arcoiris">Trucha Arcoiris</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
 
-                                                                <br>
-                                                                <label>Estado</label>
-                                                                <select class="form-control" name="estado" id="estado">
-                                                                    <option value="En Proceso">En Proceso</option>
-                                                                    <option value="Finalizado">Finalizado</option>
-                                                                    <option value="Postergado">Postergado</option>
-                                                                    <option value="Cancelado">Cancelado</option>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Estaque</label>
+                                                                <select class="form-control" name="estanque" id="estanque">
+                                                                    <option value="0">:::Seleccione:::</option>
+                                                                    <?php foreach ($data_estanque as $key => $row) : ?>
+                                                                        <option value="<?php echo $row[1] ?>"><?php echo $row[1]; ?></option>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </div>
 
                                                             <div class="form-group col-md-6">
-                                                                <label>Comentarios</label>
-                                                                <textarea class="form-control" id="comentarios" name="comentarios" rows="6"></textarea>
+                                                                <label >Peso (Gr)</label>
+                                                                <input type="number" class="form-control" id="peso" name="peso">
                                                             </div>
                                                         </div>
 
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Comentarios</label>
+                                                                <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
+                                                            </div>
 
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <div>
+                                                                    <input type="hidden" name="id_cosecha" id="id_cosecha">
+                                                                    <input type="hidden" name="accion" id="accion" value="crear">
+                                                                    <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearCosecha()">Guardar</button>
+                                                                    <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarSiembra()">Editar</button>
+                                                                    <button type="reset" class="btn btn-danger" onclick="Resetear()">Nuevo</button>
 
-                                                        <input type="hidden" name="id_calendario" id="id_calendario">
-                                                        <input type="hidden" name="accion" id="accion" value="crear">
-                                                        <button type="button" id="btnCrear" class="btn btn-primary" onclick="CrearCalendario()">Guardar</button>
-                                                        <button type="button" id="btnEditar" class="btn btn-primary" onclick="EditarCalendario()">Editar</button>
-                                                        <button type="reset" class="btn btn-danger" onclick="Resetear()">Nuevo</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                     </form>
                                                 </div>
@@ -95,14 +126,10 @@
                                                 <div class="card-body">
                                                     <div id="mensaje2"></div>
                                                     <div class="table-responsive">
-                                                        <div  id="listadoCalendario"></div>
+                                                        <div  id="listadoCosecha"></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="tab-pane fade" id="salida" role="tabpanel" aria-labelledby="salida-tab" >
-                                            Salida
                                         </div>
                                     </div>
                                 </aside>
@@ -128,11 +155,28 @@
         }
 
         function ValidarCampos() {
-            var evento = $("#evento").val();
+            var cantidad = $("#cantidad").val();
+            var peso = $("#peso").val();
+            var estanque = $("#estanque").val();
 
+            if (cantidad === "") {
+                Mensaje("mensaje", "danger", "El campo de la cantidad es requerido.");
+                return false;
+            } else if (parseFloat(cantidad) <= 0) {
+                Mensaje("mensaje", "danger", "La cantidad debe ser un valor positivo.");
+                return false;
+            }
 
-            if (evento === "") {
-                Mensaje("mensaje", "danger", "Por favor ingrese nombre del evento.");
+            if (peso === "") {
+                Mensaje("mensaje", "danger", "El campo del peso es requerido.");
+                return false;
+            } else if (parseFloat(peso) <= 0) {
+                Mensaje("mensaje", "danger", "El peso debe ser un valor positivo.");
+                return false;
+            }
+
+            if (parseInt(estanque) === 0) {
+                Mensaje("mensaje", "danger", "Por favor seleccione un estanque.");
                 return false;
             }
 
@@ -150,14 +194,14 @@
             $.ajax({
                 type: "GET",
                 dataType: 'html',
-                url: "./../controlador/ControlCalendario.php?accion=listar",
+                url: "./../controlador/ControlCosecha.php?accion=listar",
                 success: function (data) {
-                    $("#listadoCalendario").html(data);
+                    $("#listadoCosecha").html(data);
                 }
             });
         }
 
-        function CrearCalendario() {
+        function CrearCosecha() {
             if (!ValidarCampos()) {
                 return;
             }
@@ -166,16 +210,17 @@
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlCalendario.php",
+                url: "./../controlador/ControlCosecha.php",
                 success: function (data) {
                     if (parseInt(data) > 0) {
-                        Mensaje("mensaje", "success", "Calendario creado correctamente.!");
+                        Mensaje("mensaje", "success", "Cosecha creado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Listar();
                     } else {
-                        Mensaje("mensaje", "danger", "No se ha podido crear calendario.");
+                        Mensaje("mensaje", "danger", "No se ha podido crear cosecha.");
                     }
                 }, error: function (jqXHR, textStatus, errorThrown) {
+                    console.dir(jqXHR);
                     Mensaje("mensaje", "danger", "Ha ocurrido un error interno.");
                 }
             });
@@ -191,10 +236,10 @@
                 $.ajax({
                     type: "GET",
                     data: "id=" + id,
-                    url: "./../controlador/ControlCalendario.php?accion=eliminar",
+                    url: "./../controlador/ControlCosecha.php?accion=eliminar",
                     success: function (data) {
                         if (parseInt(data) > 0) {
-                            Mensaje("mensaje2", "success", "El calendario con el id " + id + " se elimino correctamente!!");
+                            Mensaje("mensaje2", "success", "La cosecha con el id " + id + " se elimino correctamente!!");
                             Listar();
                         } else {
                             Mensaje("mensaje2", "danger", "No se puede eliminar por una dependencia de llave foranea !");
@@ -202,7 +247,6 @@
                     }
                 });
             }, function () {
-
             });
 
         }
@@ -215,19 +259,22 @@
                     id: id,
                     accion: "buscarPorId"
                 },
-                url: "./../controlador/ControlCalendario.php",
+                url: "./../controlador/ControlCosecha.php",
                 success: function (data) {
-                    $("#fecha").val(data.fecha_calendario);
-                    $("#hora").val(data.hora_calendario);
-                    $("#evento").val(data.evento_calendario);
-                    $("#estado").val(data.estado_calendario);
-                    $("#comentarios").val(data.observacion_calendario);
-                    $("#id_calendario").val(data.id_calendario);
 
+                    $("#fecha").val(data.fecha_cosecha);
+                    $("#especie").val(data.especie_cosecha);
+                    $("#cantidad").val(data.cantidad_cosecha);
+                    $("#peso").val(data.peso_cosecha);
+                    $("#comentarios").val(data.observacion_cosecha);
+                    $("#estanque").val(data.estanque_cosecha);
+                    $("#lote_cosecha").val(data.lote_cosecha);
+                    $("#id_cosecha").val(id);
                     $("#myTab a:first").parent("li").show();
                     $("#myTab a:first").tab('show');
                     $("#btnCrear").hide();
                     $("#btnEditar").show();
+
                     $("#accion").val("editar");
                 }, error: function (jqXHR, textStatus, errorThrown) {
                     Mensaje("mensaje", "danger", "Ha ocurrido un error interno.");
@@ -235,7 +282,7 @@
             });
         }
 
-        function EditarCalendario() {
+        function EditarSiembra() {
             if (!ValidarCampos()) {
                 return;
             }
@@ -244,15 +291,15 @@
                 type: "POST",
                 dataType: 'json',
                 data: $("#frmCrear").serialize(),
-                url: "./../controlador/ControlCalendario.php",
+                url: "./../controlador/ControlCosecha.php",
                 success: function (data) {
                     if (data) {
-                        Mensaje("mensaje", "success", "Calendario editado correctamente.!");
+                        Mensaje("mensaje", "success", "Cosecha editado correctamente.!");
                         $("#frmCrear")[0].reset();
                         Resetear();
                         Listar();
                     } else {
-                        Mensaje("mensaje", "danger", "No se ha podido editar datos del calendario.");
+                        Mensaje("mensaje", "danger", "No se ha podido editar datos de la cosecha.");
                     }
 
                 }, error: function (jqXHR, textStatus, errorThrown) {

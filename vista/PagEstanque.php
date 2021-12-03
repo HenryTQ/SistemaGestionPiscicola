@@ -119,7 +119,9 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div id="mensaje2"></div>
-                                                    <div  id="listadoEstanque"></div>
+                                                    <div class="table-responsive">
+                                                        <div  id="listadoEstanque"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

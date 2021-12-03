@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/sistema/modelo/MuestreoDao.php</file>
+            <file>file:/C:/xampp/htdocs/sistema/vista/PagMuestreo.php</file>
+            <file>file:/C:/xampp/htdocs/sistema/database/Conexion.php</file>
+            <file>file:/C:/xampp/htdocs/sistema/database/bd_SistemaTrucha.sql</file>
+            <file>file:/C:/xampp/htdocs/sistema/vista/PagAlimentacion.php</file>
+            <file>file:/C:/xampp/htdocs/sistema/vista/includes/recurso.php</file>
+            <file>file:/C:/xampp/htdocs/sistema/vista/PagListarMuestreo.php</file>
+            <file>file:/C:/xampp/htdocs/sistema/controlador/ControlMuestreo.php</file>
+            <file>file:/C:/xampp/htdocs/sistema/vista/css/style.css</file>
+        </group>
     </open-files>
 </project-private>
